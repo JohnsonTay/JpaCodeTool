@@ -35,22 +35,23 @@ public class ${className} {
 	     private PK  pk = new PK();
      #else
         // ${comments}
+		@Id
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
+		@Column(name = "$keyVar"  )
 	     private ${keyType}  ${keyVar} ;
+
      #end
     #foreach($prop in $columnResult)
     	#if($pkResult.size()!=1)
-    		@Column(name = "$prop.name" )
+    		@Column(name = "$prop.name", length = ${prop.length}, nullable = ${prop.nullable})
     	#end
 		// "$prop.comments"
+		@Column(name = "$prop.name", length = ${prop.length}, nullable = ${prop.nullable})
     	private ${prop.dataType}  ${prop.javaName} ;
+
      #end
 
 	#foreach($prop in $pkResult)
-		#if($pkResult.size()==1)
-			@Id
-			@GeneratedValue(strategy=GenerationType.IDENTITY)
-			@Column(name = "$prop.name"  )
-		#end
 		public ${prop.dataType}  ${prop.getterMethod}  () {
 			#if($pkResult.size()>1)
 				return pk.${prop.javaName};
@@ -61,9 +62,6 @@ public class ${className} {
 	#end
 
     #foreach($prop in $columnResult)
-		#if($pkResult.size()==1)
-			@Column(name = "${prop.name}" )
-		#end
         #if(${prop.javaName}=="version")
             @Version
         #end
