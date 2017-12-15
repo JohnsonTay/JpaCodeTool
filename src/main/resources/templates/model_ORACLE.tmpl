@@ -1,0 +1,36 @@
+package ${packagePrefix}.model;
+
+import ${packagePrefix}.model.base.Base${className};
+import javax.persistence.Entity;
+import javax.persistence.Table;
+#if($pkResult.size()>1)
+import ${packagePrefix}.model.${className}PK;
+#else
+import javax.persistence.SequenceGenerator;
+#end
+
+/**
+* @ Filename ${className}Controller.java
+* @ Description
+* <li>@author: ${author}</li>
+* <li>Date: ${date}</li>
+* <li>Version: 1.0</li>
+* <li>Content: create</li>
+*/
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "$TABLE_NAME")
+#if($pkResult.size()==1)
+@SequenceGenerator(name = "${TABLE_NAME}_SEQ", sequenceName = "SEQ_${TABLE_NAME}_ID" ,allocationSize=1)
+#end
+public class ${className} extends Base${className} {
+
+    public ${className} (){
+	super();
+    }
+
+    public ${className} (${keyType} ${keyVar}){
+	super(${keyVar});
+    }
+
+}

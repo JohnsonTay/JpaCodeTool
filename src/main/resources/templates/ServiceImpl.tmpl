@@ -1,0 +1,35 @@
+package ${packagePrefix}.service.impl;
+import org.springframework.stereotype.Service;
+import javax.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import ${packagePrefix}.repository.${className}Repository;
+import ${packagePrefix}.domain.${className};
+import ${packagePrefix}.service.${className}Service;
+
+/**
+* @ Filename ${className}ServiceImpl.java
+* @ Description
+* <li>@author: ${author}</li>
+* <li>Date: ${date}</li>
+* <li>Version: 1.0</li>
+* <li>Content: create</li>
+*/
+@Service("${classVar}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Resource(name="${classVar}Repository")
+   private ${className}Repository ${classVar}Repository;
+
+	@Transactional
+   public void save${className} (${className} ${classVar}){
+ 		${classVar}Repository.save(${classVar});
+   }
+
+	@Transactional
+   public void delete${className} (${className} ${classVar}){
+   		${classVar}Repository.delete(${classVar});
+   }
+}

@@ -1,0 +1,96 @@
+package ${packagePrefix}.repository.hibernate;
+
+import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import org.myframework.repository.hibernate.BaseRepositoryHibernate;
+import ${packagePrefix}.repository.${className}Repository;
+import ${packagePrefix}.model.$className;
+#if($pkResult.size()>1)
+import ${packagePrefix}.model.${className}PK;
+#end
+
+/**
+* @ Filename ${className}RepositoryHibernate.java
+* @ Description
+* <li>@author: ${author}</li>
+* <li>Date: ${date}</li>
+* <li>Version: 1.0</li>
+* <li>Content: create</li>
+*/
+@Repository("${classVar}Repository")
+public class ${className}RepositoryHibernate extends BaseRepositoryHibernate implements ${className}Repository {
+
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#get${className}($keyType)
+     */
+    public $className get${className}($keyType pkey) {
+        $className $classVar = ($className) getHibernateTemplate().get(${className}.class, pkey);
+        
+        return $classVar;
+    }
+
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#getAll${className}s(${packagePrefix}.model.$className)
+     */
+    public List getAll${className}s() {
+        return getHibernateTemplate().find("from $className a order by a.${keyVar} ");
+    }
+    
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#get${className}s(${packagePrefix}.model.$className)
+     */
+    public List get${className}s($className $classVar) {
+        String where = "";
+
+        return getHibernateTemplate().find("from $className a " + where +" order by a.${keyVar} ");
+    }
+    
+
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#save${className}(${packagePrefix}.model.$className)
+     */
+    public void save${className}(final $className $classVar) {
+        if (log.isDebugEnabled()) {
+            log.debug("save ${classVar}'s id: " + ${classVar}.${idGetMethod}());
+        }
+#if (${needUpdate})
+        getHibernateTemplate().save($classVar);
+#else
+        getHibernateTemplate().saveOrUpdate($classVar);
+#end
+    }
+
+#if (${needUpdate})    
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#update${className}(${packagePrefix}.model.$className)
+     */
+    public void update${className}(final $className $classVar) {
+        if (log.isDebugEnabled()) {
+            log.debug("update ${classVar}'s id: " + ${classVar}.${idGetMethod}());
+        }
+        getHibernateTemplate().update($classVar);    
+    }
+#end
+
+    /**
+     * @see ${packagePrefix}.repository.${className}Repository#remove${className}
+     */
+    public void remove${className}($keyType pkey) {
+        $className $classVar = get${className}(pkey);
+        getHibernateTemplate().delete(${classVar});
+    }
+    
+    /**
+     */
+	public void remove${className}(Collection<$keyType> pkeys) {
+		if(pkeys.size() > 0){
+			List<${className}> list = new ArrayList<${className}>(pkeys.size());
+			for($keyType pkey : pkeys){
+				list.add(get${className}(pkey));
+			}
+			getHibernateTemplate().deleteAll(list);
+		} 
+	}
+}
